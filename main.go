@@ -19,7 +19,7 @@ import (
 // @title Fiber API MyFavFood
 // @version 1.0
 // @description This is a api MyFavFood
-// @host  humorous-colt-vital.ngrok-free.app
+// @host  your-host
 // @BasePath /
 func main() {
 

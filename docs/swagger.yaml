@@ -1,5 +1,12 @@
 basePath: /
 definitions:
+  model.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
   model.Response:
     properties:
       code:
@@ -9,21 +16,66 @@ definitions:
         type: string
     type: object
   model.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+      updated_at:
+        type: string
     type: object
-host: humorous-colt-vital.ngrok-free.app
+host: your-host
 info:
   contact: {}
   description: This is a api MyFavFood
   title: Fiber API MyFavFood
   version: "1.0"
 paths:
+  /api/login/login:
+    post:
+      consumes:
+      - application/json
+      description: Login a user
+      parameters:
+      - description: Login credentials
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/model.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully logged in
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Login a user
+      tags:
+      - Login
   /api/user/create:
     post:
       consumes:
       - application/json
       description: Create a new user
       parameters:
-      - description: User data
+      - description: User object
         in: body
         name: user
         required: true
@@ -135,6 +187,13 @@ paths:
       consumes:
       - application/json
       description: Update users information
+      parameters:
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
       produces:
       - application/json
       responses:

@@ -15,7 +15,7 @@ import (
 // @Tags users
 // @Accept json
 // @Produce json
-// @Param user body model.User true "User data"
+// @Param user body model.User true "User object"
 // @Success 201 {object} model.Response{data=model.User} "Successfully created user"
 // @Failure 400 {object} model.Response "Bad Request"
 // @Failure 500 {object} model.Response "Internal Server Error"
@@ -101,12 +101,13 @@ func (h *HTTPGateway) GetUserByID(c *fiber.Ctx) error {
 }
 
 
-// GetAllUser Godoc
+// UpdateUser Godoc
 // @Summary Update users
 // @Description Update users information
 // @Tags users
 // @Accept json
 // @Produce json
+// @Param user body model.User true "User object"
 // @Success 200 {object} model.Response{data=[]model.User} "Successfully updated users"
 // @Failure 500 {object} model.Response "Internal Server Error"
 // @Router /api/user/update [put]

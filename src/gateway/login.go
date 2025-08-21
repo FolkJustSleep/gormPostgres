@@ -9,6 +9,18 @@ import (
 	
 	fiberlog "github.com/gofiber/fiber/v2/log"
 )
+
+// Login Godoc
+// @Summary Login a user
+// @Description Login a user
+// @Tags Login
+// @Accept json
+// @Produce json
+// @Param login body model.LoginRequest true "Login credentials"
+// @Success 200 {object} model.Response "Successfully logged in"
+// @Failure 400 {object} model.Response "Bad Request"
+// @Failure 401 {object} model.Response "Unauthorized"
+// @Router /api/login/login [post]
 func (h *HTTPGateway) Login(ctx *fiber.Ctx) error {
 	var loginData model.LoginRequest
 	if err := ctx.BodyParser(&loginData); err != nil {
