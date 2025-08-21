@@ -15,7 +15,153 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/user": {
+        "/api/user/create": {
+            "post": {
+                "description": "Create a new user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Create a new user",
+                "parameters": [
+                    {
+                        "description": "User data",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successfully created user",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.User"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/delete": {
+            "delete": {
+                "description": "Delete users information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Delete users",
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted users",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.User"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/get": {
+            "get": {
+                "description": "Get users information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get users",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved users",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.User"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/getall": {
             "get": {
                 "description": "Get all users",
                 "consumes": [
@@ -42,7 +188,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/model.Employee"
+                                                "$ref": "#/definitions/model.User"
                                             }
                                         }
                                     }
@@ -57,9 +203,11 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "post": {
-                "description": "Create a new user",
+            }
+        },
+        "/api/user/update": {
+            "put": {
+                "description": "Update users information",
                 "consumes": [
                     "application/json"
                 ],
@@ -69,21 +217,10 @@ const docTemplate = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "Create a new user",
-                "parameters": [
-                    {
-                        "description": "User data",
-                        "name": "user",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.Employee"
-                        }
-                    }
-                ],
+                "summary": "Update users",
                 "responses": {
-                    "201": {
-                        "description": "Successfully created user",
+                    "200": {
+                        "description": "Successfully updated users",
                         "schema": {
                             "allOf": [
                                 {
@@ -93,17 +230,14 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/model.Employee"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.User"
+                                            }
                                         }
                                     }
                                 }
                             ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.Response"
                         }
                     },
                     "500": {
@@ -117,41 +251,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "model.Employee": {
-            "type": "object",
-            "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "contract_id": {
-                    "type": "string"
-                },
-                "createdat": {
-                    "type": "string"
-                },
-                "emp_email": {
-                    "type": "string"
-                },
-                "emp_fname": {
-                    "type": "string"
-                },
-                "emp_gender": {
-                    "type": "string"
-                },
-                "emp_id": {
-                    "type": "string"
-                },
-                "emp_lname": {
-                    "type": "string"
-                },
-                "emp_phone": {
-                    "type": "string"
-                },
-                "emp_pos": {
-                    "type": "string"
-                }
-            }
-        },
         "model.Response": {
             "type": "object",
             "properties": {
@@ -163,6 +262,9 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "model.User": {
+            "type": "object"
         }
     }
 }`

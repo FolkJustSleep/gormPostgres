@@ -1,28 +1,5 @@
 basePath: /
 definitions:
-  model.Employee:
-    properties:
-      address:
-        type: string
-      contract_id:
-        type: string
-      createdat:
-        type: string
-      emp_email:
-        type: string
-      emp_fname:
-        type: string
-      emp_gender:
-        type: string
-      emp_id:
-        type: string
-      emp_lname:
-        type: string
-      emp_phone:
-        type: string
-      emp_pos:
-        type: string
-    type: object
   model.Response:
     properties:
       code:
@@ -31,6 +8,8 @@ definitions:
       message:
         type: string
     type: object
+  model.User:
+    type: object
 host: humorous-colt-vital.ngrok-free.app
 info:
   contact: {}
@@ -38,7 +17,94 @@ info:
   title: Fiber API MyFavFood
   version: "1.0"
 paths:
-  /api/user:
+  /api/user/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: User data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully created user
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.User'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Create a new user
+      tags:
+      - users
+  /api/user/delete:
+    delete:
+      consumes:
+      - application/json
+      description: Delete users information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully deleted users
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.User'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Delete users
+      tags:
+      - users
+  /api/user/get:
+    get:
+      consumes:
+      - application/json
+      description: Get users information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved users
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.User'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get users
+      tags:
+      - users
+  /api/user/getall:
     get:
       consumes:
       - application/json
@@ -54,7 +120,7 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/model.Employee'
+                    $ref: '#/definitions/model.User'
                   type: array
               type: object
         "500":
@@ -64,38 +130,30 @@ paths:
       summary: Get all users
       tags:
       - users
-    post:
+  /api/user/update:
+    put:
       consumes:
       - application/json
-      description: Create a new user
-      parameters:
-      - description: User data
-        in: body
-        name: user
-        required: true
-        schema:
-          $ref: '#/definitions/model.Employee'
+      description: Update users information
       produces:
       - application/json
       responses:
-        "201":
-          description: Successfully created user
+        "200":
+          description: Successfully updated users
           schema:
             allOf:
             - $ref: '#/definitions/model.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/model.Employee'
+                  items:
+                    $ref: '#/definitions/model.User'
+                  type: array
               type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/model.Response'
         "500":
           description: Internal Server Error
           schema:
             $ref: '#/definitions/model.Response'
-      summary: Create a new user
+      summary: Update users
       tags:
       - users
 swagger: "2.0"
